@@ -14,6 +14,7 @@ class GameWindow < Gosu::Window
     @bomb_x, @bomb_y = 300, 150
     @player = Player.new
     @player.warp(@player_x,@player_y)
+    @seconds = 0
   end
 
   def update
@@ -25,6 +26,7 @@ class GameWindow < Gosu::Window
 		else
 		end
 	end
+
 	if button_down?(Gosu::KbLeft)  
 		if @x1 <= -20
             @x1 += 2
@@ -32,14 +34,16 @@ class GameWindow < Gosu::Window
 		else
 		end
 	end
-	if button_down?(Gosu::KbUp) 
+	
+    if button_down?(Gosu::KbUp) 
 		if @y1 <= -20
             @y1 += 2
 			@player.move_up
 		else
 		end
 	end
-	if button_down?(Gosu::KbDown)
+	
+    if button_down?(Gosu::KbDown)
 		if @y1 >= -3500
             @y1 -= 2
 			@player.move_down
@@ -48,7 +52,15 @@ class GameWindow < Gosu::Window
 	end
 
     if button_down?(Gosu::KbSpace)
-        @bombs.push(Bomb.new)
+        @bombs.push(Bomb.new(@x1,@y1))
+        @seconds = 0
+    end
+
+    @seconds += 1
+
+    if @seconds == 15
+      @seconds = 0
+      @bombs.pop
     end
     @coordinates = Gosu::Image.from_text(
       self, "#{@x1},#{@y1}", Gosu.default_font_name, 30)
@@ -66,7 +78,7 @@ class GameWindow < Gosu::Window
     @background.draw(@x1, @local_y - @background.height, 0) if @local_y > (@background.height - self.height)
 
     @player.draw
-    @bombs.each { |bomb| bomb.draw(@x1,@y1)}
+    @bombs.each { |bomb| bomb.draw(@x1,@y1,@bomb_x,@bomb_y)}
     end
 
     def button_down(id) # Side note: Does this work correctly?
