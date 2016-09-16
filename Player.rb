@@ -9,7 +9,27 @@ class Player
     @playerdown = Gosu::Image::load_tiles("media/walk_down.png",24,32)
     @playerleft = Gosu::Image::load_tiles("media/walk_left.png",24,32)
     @facing = @front
-    @x = @y = 0.0
+    @myBombs = 0
+    @maxBombs = 3
+    @x = @y = 0
+  end
+
+
+  def plantBomb
+      @myBombs += 1
+  end
+
+
+  def myBombs
+    return @myBombs
+  end
+
+  def myMaxBombs
+    return @maxBombs
+  end
+
+  def removeBomb
+    @myBombs -= 1
   end
 
   def move_up
@@ -36,6 +56,18 @@ class Player
     @x, @y = x, y
   end
 
+  /def near_bomb(bombs)
+    bombs.reject! do |bomb|
+    if Gosu::distance(@bomb_x,@bomb_y,@x,@y) < 35 then
+        @health -= 10
+        true
+        else
+        false
+      end
+    end
+
+  end
+/
   def draw
     @facing.draw(300, 150, 0)
   end
