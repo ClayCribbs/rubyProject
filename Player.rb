@@ -1,4 +1,5 @@
 class Player
+  
   def initialize
     @front  = Gosu::Image.new("Media/front.png")
     @back  = Gosu::Image.new("Media/back.png")
@@ -12,6 +13,8 @@ class Player
     @myBombs = 0
     @maxBombs = 3
     @x = @y = 0
+    @health = 100
+    @lasthit = 0
   end
 
 
@@ -56,18 +59,26 @@ class Player
     @x, @y = x, y
   end
 
-  /def near_bomb(bombs)
-    bombs.reject! do |bomb|
-    if Gosu::distance(@bomb_x,@bomb_y,@x,@y) < 35 then
-        @health -= 10
-        true
+  def near_bomb(bombs,timer)
+    bombs.each do |bomb|
+    if Gosu::distance(bomb.getX,bomb.getY,300,150) < 25 then
+        if timer-@lasthit > 3 
+          @health -= 10
+          @lasthit = timer
+          true
+        end
         else
         false
       end
     end
 
   end
-/
+
+  def getHealth
+    return @health
+  end
+
+
   def draw
     @facing.draw(300, 150, 0)
   end

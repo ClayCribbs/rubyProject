@@ -3,10 +3,11 @@
 class Bomb
 
   def initialize(this_x,this_y)
-    @animation = Gosu::Image::load_tiles("media/BombExploding.png",32,64)
     @thisBomb_x = this_x
     @thisBomb_y = this_y
-    @seconds = 0
+    @seconds = 1
+    @current_frame = 0
+    @animation = Gosu::Image::load_tiles("media/BombExploding.png",32,64)
   end
 
   def warp(destination_X,destination_y)
@@ -15,12 +16,20 @@ class Bomb
   end
 
   def draw  ()
-    img = @animation[Gosu::milliseconds / 250 % 10];
-    img.draw(@thisBomb_x, @thisBomb_y, 0)
+  img = @animation[@seconds / 26 % 10]
+  img.draw(@thisBomb_x, @thisBomb_y, 0)
   end
  
   def returnSeconds
     return @seconds
+  end
+
+  def getX
+    return @thisBomb_x
+  end
+
+  def getY
+    return @thisBomb_y
   end
 
   def addSecond
