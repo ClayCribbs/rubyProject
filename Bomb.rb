@@ -1,5 +1,3 @@
-
-
 class Bomb
 
   def initialize(this_x,this_y)
@@ -53,8 +51,10 @@ class Bomb
 
   def draw  ()
   img = @animation[@seconds / 15 % 10]
-  img.draw(@thisBomb_x, @thisBomb_y, 0)
+  img.draw(@thisBomb_x, @thisBomb_y,  ZOrder::Bombs)
   end
  
 
 end
+
+
