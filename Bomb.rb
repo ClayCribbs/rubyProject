@@ -15,11 +15,6 @@ class Bomb
     @thisBomb_y = destination_y  
   end
 
-  def draw  ()
-  img = @animation[@seconds / 26 % 10]
-  img.draw(@thisBomb_x, @thisBomb_y, 0)
-  end
- 
   def returnSeconds
     return @seconds
   end
@@ -56,5 +51,10 @@ class Bomb
     @thisBomb_x -= 2
   end
 
+  def draw  ()
+  img = @animation[@seconds / 15 % 10]
+  img.draw(@thisBomb_x, @thisBomb_y, 0)
+  end
+ 
 
 end

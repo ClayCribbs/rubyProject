@@ -12,9 +12,11 @@ class Player
     @facing = @front
     @myBombs = 0
     @maxBombs = 3
-    @x = @y = 0
+    @x = 300
+    @y = 150
     @health = 100
-    @lasthit = 0
+    @lasthit = 5
+    @ouch = Gosu::Sample.new("Media/ouch.mp3")
   end
 
 
@@ -22,6 +24,13 @@ class Player
       @myBombs += 1
   end
 
+  def getX
+    return @x
+  end
+
+  def getY
+    return @y
+  end
 
   def myBombs
     return @myBombs
@@ -36,22 +45,22 @@ class Player
   end
 
   def move_up
-    @y += 2
+    @y -= 2
     @facing = @playerup[Gosu::milliseconds / 100 % @playerup.size]; 
   end
 
   def move_down
-    @y -= 2
+    @y += 2
     @facing = @playerdown[Gosu::milliseconds / 100 % @playerdown.size];
   end
 
   def move_left
-    @x += 2
+    @x -= 2
     @facing = @playerleft[Gosu::milliseconds / 100 % @playerleft.size];
   end
     
   def move_right
-    @x -= 2
+    @x += 2
     @facing = @playerright[Gosu::milliseconds / 100 % @playerright.size];
   end
 
@@ -59,14 +68,13 @@ class Player
     @x, @y = x, y
   end
 
-  def near_bomb(bombs,timer)
-    bombs.each do |bomb|
-    if Gosu::distance(bomb.getX,bomb.getY,300,150) < 25 then
+  def near_bomb(bomb,timer)
+    if Gosu::distance(bomb.getX,bomb.getY,300,150) < 45 then
         if timer-@lasthit > 3 
           @health -= 10
+          @ouch.play
           @lasthit = timer
           true
-        end
         else
         false
       end
